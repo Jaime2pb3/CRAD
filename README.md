@@ -4,7 +4,7 @@
 
 | Author: Luis Jaime Ledesma Pérez |
 |------------------------------------|
-| Lab:TwoQuarks Research |
+| Lab: TwoQuarks Research |
 | Contact: `research@twoquarks.com` |
 | Website: https://twoquarks.com |
 
