@@ -74,7 +74,7 @@ Safety failures in language models are commonly described as the disappearance, 
 
 Internal representations have become a practical level of analysis for model monitoring and control. Representation engineering treats population-level activations as observable and manipulable variables \citep{zou2023representation}, while activation engineering demonstrates that contrastive activation directions can alter high-level behavior at inference time \citep{turner2023activation}. In safety-aligned chat models, refusal has been associated with a low-dimensional direction whose removal or addition changes refusal behavior \citep{arditi2024refusal}. More recent work has found jailbreak-related information in hidden representations and decoding trajectories \citep{kadali2026trace,liu2026trajguard,zhang2026mtk}.
 
-These results motivate monitoring internal state, but they leave an important distinction unresolved. A model can emit an unsafe continuation because a safety-related state has disappeared, or because the emitted action diverges from a constraint that remains represented. The two cases are mechanistically and operationally different. The first is a consistent transition; the second is a state--action dissociation.
+These results motivate monitoring internal state, but they leave an important distinction unresolved. A model can emit an unsafe continuation because a safety-related state has disappeared, or because the emitted action diverges from a constraint that remains represented. The two cases are mechanistically and operationally different. The first is a consistent transition; the second is a state--action dissociation. This distinction is not merely theoretical. Structural channel defenses that eliminate adversarial manipulation still report a residual band of failures: \citet{abdelnabi2026firewalls} find that roughly three-quarters of the security failures surviving their dual firewall are preference manipulations in which structurally valid content still steers the assistant away from user intent, which they characterize as a preference-alignment problem rather than a channel-detection one. \CRAD{} is an attempt to build a token-level observable for exactly that residual class: cases where the constraint is present but the realized action diverges from it.
 
 We define \CRAD{} as a transient regime in which an action becomes attributable to an opposing behavioral direction while the original constraint remains active across and beyond the action onset. The central distinction is temporal:
 \begin{align}
@@ -341,6 +341,12 @@ The deterministic run used the following principal settings: Qwen2.5-7B-Instruct
 The analysis code performs self-tests for: non-antipodal neutral geometry, simultaneous L/R support, correct override/consistent classification in planted trajectories, low-energy damping, and detection of the invalid midpoint construction.
 
 \begin{thebibliography}{99}
+
+\bibitem[Abdelnabi et~al.(2026)Abdelnabi, Gomaa, Bagdasarian, Kristensson, and Shokri]{abdelnabi2026firewalls}
+Sahar Abdelnabi, Amr Gomaa, Eugene Bagdasarian, Per Ola Kristensson, and Reza Shokri.
+\newblock Firewalls to secure dynamic LLM agentic networks.
+\newblock \emph{Transactions on Machine Learning Research}, 2026.
+\newblock arXiv:2502.01822.
 
 \bibitem[Arditi et~al.(2024)Arditi, Obeso, Syed, Paleka, Panickssery, Gurnee, and Nanda]{arditi2024refusal}
 Andy Arditi, Oscar Obeso, Aaquib Syed, Daniel Paleka, Nina Panickssery, Wes Gurnee, and Neel Nanda.
