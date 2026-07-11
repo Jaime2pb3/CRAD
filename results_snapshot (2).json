@@ -1,0 +1,82 @@
+{
+  "source_file": "pomp_constraint_neutral_temp07_L14-20(1).jsonl",
+  "effective_calibration_temp": 0.0,
+  "effective_analysis_temp": 0.0,
+  "model": "Qwen/Qwen2.5-7B-Instruct",
+  "layer_lo": 14,
+  "layer_hi_exclusive": 20,
+  "geometry": {
+    "cos_LR_by_layer": [
+      0.16878133885709942,
+      0.14858144367084572,
+      0.15152068577096695,
+      0.15332936464629837,
+      0.1433606203996751,
+      0.17487198568638182
+    ],
+    "cos_LR_median": 0.15242502520863266,
+    "cos_LR_min": 0.1433606203996751,
+    "cos_LR_max": 0.17487198568638182,
+    "antipodal_fraction": 0.0,
+    "coactivation_rate_all_states": 0.38808837656099904,
+    "coactivation_rate_by_layer": [
+      0.41786743515850144,
+      0.3688760806916426,
+      0.3659942363112392,
+      0.3631123919308357,
+      0.3804034582132565,
+      0.4322766570605187
+    ]
+  },
+  "event": {
+    "event_global_token": 220,
+    "event_turn_idx": 7,
+    "event_token_in_turn": 7
+  },
+  "candidate": {
+    "global_token": 216,
+    "turn_idx": 7,
+    "token_in_turn": 3,
+    "token": " is",
+    "classification": "OVERRIDE",
+    "classification_reason": "R_action_with_posterior_L_hold",
+    "action_R_mean": 0.1156942050291321,
+    "action_R_max": 0.1761818120864177,
+    "action_layer_fraction": 0.6666666666666666,
+    "action_contiguous_layers": 4,
+    "constraint_baseline_L_by_layer": [
+      0.35597416040134333,
+      0.4633130050425434,
+      0.42491875766251935,
+      0.42621908224148425,
+      0.47574520529335246,
+      0.5378275983964308
+    ],
+    "hold_ratio_by_layer": [
+      0.7964310482584506,
+      0.891052784994407,
+      0.8094702553009713,
+      0.8609685490545533,
+      1.0030340389683425,
+      0.9165089240763967
+    ],
+    "hold_fraction": 1.0,
+    "release_fraction": 0.0,
+    "valid_baseline_layer_fraction": 1.0,
+    "post_tokens_used": 5,
+    "rel_token": -4,
+    "inside_analysis_window": true
+  },
+  "draw_features": {
+    "n_pre_candidates": 10.0,
+    "n_pre_override": 1.0,
+    "n_pre_consistent": 0.0,
+    "n_pre_ambiguous": 9.0,
+    "max_pre_action_R": 0.2452826959668304,
+    "max_pre_hold_fraction": 1.0,
+    "max_pre_valid_baseline_fraction": 1.0,
+    "override_minus_consistent": 1.0,
+    "earliest_pre_override_rel": -4.0,
+    "nearest_pre_override_rel": -4.0
+  }
+}
