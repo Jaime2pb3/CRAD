@@ -92,20 +92,19 @@ This is intentional: at T=0 the draws are duplicates, and treating them as indep
 ## What the deterministic run found
 
 Values are reproduced verbatim in `results_snapshot.json`.
-    __________________________________________________________________
-    |           Quantity           |               Value             |
-    |______________________________|_________________________________|
-    |      Model / layer band      |   Qwen2.5-7B-Instruct / 14–19   |
-    |           Decoding           |           Greedy (T=0)          |
-    |Neutral-anchored med. cos(L,R)|  0.1524 (antipodal fraction 0%) |
-    |  Aggregate L/R coactivation  |             38.8%               |
-    |    Candidate global token    |              216                |
-    |    Offset from leak start    |            −1 token             |
-    |       R-action layers        |  4 / 6 (contiguous block of 4)  |
-    |  Mean / max damped R-action  |         0.1157 / 0.1762         |
-    |   Posterior L-hold fraction  |              6 / 6              |
-    | Posterior L-release fraction |              0 / 6              |
-    __________________________________________________________________
+
+| Quantity | Value |
+|---|---|
+| Model / layer band | Qwen2.5-7B-Instruct / 14–19 |
+| Decoding | Greedy (T=0) |
+| Neutral-anchored median cos(L,R) | 0.1524 (antipodal fraction 0%) |
+| Aggregate L/R coactivation | 38.8% |
+| Candidate global token | 216 |
+| Offset from leak start | −1 token |
+| R-action layers | 4 / 6 (contiguous block of 4) |
+| Mean / max damped R-action | 0.1157 / 0.1762 |
+| Posterior L-hold fraction | 6 / 6 |
+| Posterior L-release fraction | 0 / 6 |
 
 One classified pre-leak candidate appeared one generated token before secret emission: the action transition was R-attributed 
 across a coherent four-layer block while the L-constraint was retained in all six monitored layers over the posterior window.
