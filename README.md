@@ -2,10 +2,10 @@
 
 **Neutral-anchored detection of pre-leak state–action dissociation in a frozen language model.**
 
-Author: Luis Jaime Ledesma Pérez
-Lab:TwoQuarks Research
-Contact: `research@twoquarks.com`
-Website: https://twoquarks.com
+| Author: Luis Jaime Ledesma Pérez |
+| Lab:TwoQuarks Research  |
+| Contact: `research@twoquarks.com` |
+| Website: https://twoquarks.com  |
 
 ---
 
