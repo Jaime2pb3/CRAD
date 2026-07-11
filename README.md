@@ -6,8 +6,8 @@
 |----|----|
 | Lab | TwoQuarks Research |
 | Contact | `research@twoquarks.com` |
-| DOI | {\url{https://doi.org/10.5281/zenodo.21315238}} |
-| Website | {\url{https://twoquarks.com}} |
+| DOI | https://doi.org/10.5281/zenodo.21315238 |
+| Website | https://twoquarks.com |
 
 ---
 
