@@ -1,5 +1,5 @@
-# C R A D 
-## Constraint-Retained Action Divergence.
+# C R A D
+> ## Constraint-Retained Action Divergence.
 
 **Neutral-anchored detection of pre-leak state–action dissociation in a frozen language model.**
 
