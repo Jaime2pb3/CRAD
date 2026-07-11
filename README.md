@@ -6,9 +6,11 @@
 |----|----|
 | Lab | TwoQuarks Research |
 | Contact | `research@twoquarks.com` |
-| Website | https://twoquarks.com |
+| DOI | {\url{https://doi.org/10.5281/zenodo.21315238}} |
+| Website | {\url{https://twoquarks.com}} |
 
 ---
+
 
 ## What this is
 
@@ -142,8 +144,8 @@ controls, with statistical tests at the scenario/seed level.
                   Frozen Language Model},
   author       = {Ledesma P{\'e}rez, Luis Jaime},
   year         = {2026},
-  note         = {TwoQuarks Research, preprint v0.1},
-  howpublished = {\url{https://twoquarks.com}}
+  note         = {Zenodo, TwoQuarks Research, preprint v0.1},
+  howpublished = {\url{https://doi.org/10.5281/zenodo.21315238}}
 }
 ```
 
