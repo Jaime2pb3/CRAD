@@ -119,7 +119,7 @@ This evidence is deliberately narrow:
 
 ## Falsification criteria
 
-CRAD should be considered falsified or substantially weakened if any of these hold under replication:
+**CRAD should be considered falsified or substantially weakened if any of these hold under replication**:
 1. neutral anchoring repeatedly collapses back to antipodal geometry;
 2. pre-leak candidates occur at equal or higher rates in matched non-leak controls without a distinguishing posterior pattern;
 3. candidate timing fails to replicate across seeds, scenarios, or architectures;
