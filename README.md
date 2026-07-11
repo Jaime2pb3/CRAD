@@ -145,7 +145,7 @@ controls, with statistical tests at the scenario/seed level.
   author       = {Ledesma P{\'e}rez, Luis Jaime},
   year         = {2026},
   note         = {Zenodo, TwoQuarks Research, preprint v0.1},
-  howpublished = {\url{https://doi.org/10.5281/zenodo.21315238}}
+  howpublished = {https://doi.org/10.5281/zenodo.21315238}
 }
 ```
 
