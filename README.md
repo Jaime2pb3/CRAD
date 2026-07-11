@@ -1,4 +1,4 @@
-# CRAD — Constraint-Retained Action Divergence
+# CRAD — Constraint-Retained Action Divergence.
 
 **Neutral-anchored detection of pre-leak state–action dissociation in a frozen language model.**
 
