@@ -5,3 +5,8 @@ __pycache__/
 env/
 .venv/
 *.egg-info/
+# lab outputs (captures weigh hundreds of MB)
+lab/captures/
+lab/runs/
+lab/preflight/
+lab/analysis/

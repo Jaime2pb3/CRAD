@@ -43,6 +43,7 @@ CRAD/
 ├── refs.bib                     # references
 ├── results_snapshot.json        # deterministic candidate, verbatim
 ├── figures/                     # geometry, trajectory, hold-by-layer
+├── lab/                         # post-preprint lab: contract, patching, rings, tube, BELENC (see lab/README.md)
 └── README.md
 ```
 
@@ -119,6 +120,16 @@ This evidence is deliberately narrow:
 - **No control trajectories yet.** The result establishes existence, not discrimination.
 - The result is observational. No intervention shows the candidate is necessary or sufficient for leakage.
 - L/R state supports and action fields are empirical proxies, not demonstrated internal policies.
+
+## After the preprint: the lab
+
+The scope above is the preprint as published. Work since then lives in [`lab/`](lab/README.md) and goes after some of those limits directly:
+
+- **A preregistered test of criterion 2 was rejected** (September): `n_pre_override` did not separate leaks from refusals across seeds 43 to 46.
+- **Intervention, not only observation.** Activation patching at the decision row shows the choice is already in the state from L14 on, and that the L/R plane alone does not carry it.
+- **A validation standard for the instruments (BELENC)**: known perturbations planted inside real activations give each instrument a limit of detection, so a negative result can be read.
+
+Start with `python lab/ladder.py cpu`. It needs no GPU.
 
 ## Falsification criteria
 

@@ -1,0 +1,8 @@
+{
+  "repo": "https://github.com/Jaime2pb3/CRAD",
+  "commit": "eb8217b",
+  "files": {
+    "CRAD_v1.3.py": "sha256:7173a65c73fb942f1662e20bbafead720bb2b5b68fed6254b7ade9c84879ae67",
+    "crad_base.py": "sha256:bd8d2f223bde8bce5549ce9a19f2e630ddce35c98c396b460860cafee47b38bb"
+  }
+}
