@@ -8,6 +8,12 @@ The preprint code at the repository root (`CRAD_v1.3.py`, `crad_base.py`) is unt
 
 ---
 
+## Run it on Colab
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Jaime2pb3/CRAD/blob/Colab/lab/crad_lab_colab.ipynb)
+
+`crad_lab_colab.ipynb` runs the same ladder cell by cell. It clones this repository, so nothing has to be uploaded. Google Drive is optional (`USE_DRIVE = True`) and only keeps your own results between sessions.
+
 ## The ladder
 
 ```bash
