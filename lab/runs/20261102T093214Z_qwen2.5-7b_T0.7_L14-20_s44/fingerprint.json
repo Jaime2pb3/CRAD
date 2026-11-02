@@ -1,0 +1,44 @@
+{
+  "config": {
+    "name": "qwen2.5-7b_T0.7_L14-20_s44",
+    "sha256": "sha256:909f5fb90273d9a5baed1b7f00bf71d15790b7c7316915702c131cff82d9c24f"
+  },
+  "env": {
+    "accelerate": "1.15.0",
+    "bitsandbytes": "0.50.2",
+    "colab_release": "release-colab-external-images_20261029-060149_RC00",
+    "huggingface_hub": "1.33.0",
+    "numpy": "2.1.3",
+    "platform": "Linux-6.6.159+-x86_64-with-glibc2.39",
+    "python": "3.13.16",
+    "safetensors": "0.8.0",
+    "tokenizers": "0.23.3",
+    "torch": "2.11.0+cu130",
+    "transformers": "5.21.0"
+  },
+  "gpu": {
+    "available": true,
+    "capability": "12.0",
+    "count": 1,
+    "cuda_build": "13.0",
+    "driver": "580.82.07",
+    "name": "NVIDIA RTX PRO 6000 Blackwell Server Edition",
+    "total_memory_gb": 101.97
+  },
+  "mock": false,
+  "model": {
+    "id": "Qwen/Qwen2.5-7B-Instruct",
+    "quantization_requested": "nf4",
+    "revision": "a09a35458c702b33eeacc393d103063234e8bc28"
+  },
+  "schema": "crad-fingerprint-colab-0.1",
+  "source": {
+    "crad_base": "sha256:bd8d2f223bde8bce5549ce9a19f2e630ddce35c98c396b460860cafee47b38bb",
+    "crad_launch": "sha256:919a8c60c4315620b78448d24e1c7e2bec31cf1bd80b8153e18941a159697017",
+    "crad_v1_3": "sha256:7173a65c73fb942f1662e20bbafead720bb2b5b68fed6254b7ade9c84879ae67",
+    "fingerprint_py": "sha256:963e78f6bf16cfc51881839562e2006ebdc9442ad544d311cd637aab5a2a089e",
+    "instrument_commit": "eb8217b",
+    "launch_common": "sha256:df099d944304054abd268d98777b7d263ef0516bb59f4d63439939dac83fbd8c",
+    "run_py": "sha256:792977717f9065d50a97360268bd1f48ce2d25e4109f4e5acfa2da40753d4b39"
+  }
+}

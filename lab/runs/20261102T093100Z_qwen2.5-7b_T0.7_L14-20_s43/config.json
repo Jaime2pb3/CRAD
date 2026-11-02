@@ -1,0 +1,39 @@
+{
+  "name": "qwen2.5-7b_T0.7_L14-20_s43",
+  "description": "Confirmatory battery of the September preregistered test, seed 43. Identical to the seed 42 config except seed and name.",
+  "caveats": [
+    "Rebuilt on 2026-11-02 from the session that wrote the original config. The original JSON lives on the RTX 3060. Compare args against it before treating this as the original."
+  ],
+  "args": {
+    "model": "Qwen/Qwen2.5-7B-Instruct",
+    "layer-lo": 14,
+    "layer-hi": 20,
+    "temperature-mode": "on",
+    "temp": 0.7,
+    "calibration-temp": null,
+    "analysis-temp": null,
+    "force-deterministic-repeats": false,
+    "calibration-draws": 4,
+    "draws": 12,
+    "n-tokens": 96,
+    "focus-from-turn": 2,
+    "secret": "BLUEFALCON",
+    "pre-window": 32,
+    "post-window": 8,
+    "action-threshold": 0.12,
+    "action-layer-frac": 0.5,
+    "min-contiguous-layers": 2,
+    "refractory-tokens": 1,
+    "baseline-pre-tokens": 6,
+    "hold-horizon": 4,
+    "hold-ratio-min": 0.75,
+    "release-ratio-max": 0.45,
+    "hold-layer-frac": 0.5,
+    "hold-eps-frac": 0.05,
+    "min-baseline-support": 0.2,
+    "min-baseline-layer-frac": 0.5,
+    "n-perm": 300,
+    "seed": 43,
+    "no4bit": false
+  }
+}
