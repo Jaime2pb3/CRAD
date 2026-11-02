@@ -40,10 +40,12 @@ CRAD/
 ├── CRAD_v1.3.py                 # the two-stage detector (entry point)
 ├── crad_base.py                 # base instrument: model wrapper, ramp, draws
 ├── crad_preprint_v0_1.tex       # preprint source
+├── crad_preprint_v0_1.pdf       # preprint
 ├── refs.bib                     # references
 ├── results_snapshot.json        # deterministic candidate, verbatim
 ├── figures/                     # geometry, trajectory, hold-by-layer
-├── lab/                         # post-preprint lab: contract, patching, rings, tube, BELENC (see lab/README.md)
+├── lab/                         # post-preprint lab: contract, patching, rings, tube, BELENC, TOP guard (see lab/README.md)
+├── LICENSE
 └── README.md
 ```
 
@@ -125,7 +127,8 @@ This evidence is deliberately narrow:
 
 The scope above is the preprint as published. Work since then lives in [`lab/`](lab/README.md) and goes after some of those limits directly:
 
-- **A preregistered test of criterion 2 was rejected** (September): `n_pre_override` did not separate leaks from refusals across seeds 43 to 46.
+- **A preregistered test of criterion 2 was rejected** (September, [`PREREG.md`](lab/PREREG.md)): `n_pre_override` did not separate leaks from refusals across seeds 43 to 46.
+- **A preregistered guard did not show a defense** (October, [`PREREG_TOP.md`](lab/PREREG_TOP.md)): under the same pressure, a TOP guard did not reduce leaks more clearly than its sham control, while its conjugate raised them.
 - **Intervention, not only observation.** Activation patching at the decision row shows the choice is already in the state from L14 on, and that the L/R plane alone does not carry it.
 - **A validation standard for the instruments (BELENC)**: known perturbations planted inside real activations give each instrument a limit of detection, so a negative result can be read.
 

@@ -1,0 +1,10 @@
+# CPU rungs need the first four. GPU rungs also need bitsandbytes and accelerate.
+# Pinned versions are the RTX 3060 reference environment of 2026-09-24.
+# A CUDA build of torch comes from the PyTorch index for your driver.
+torch==2.14.0
+transformers==5.17.0
+numpy
+scipy
+bitsandbytes==0.50.2
+accelerate
+huggingface_hub

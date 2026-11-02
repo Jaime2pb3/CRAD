@@ -4,7 +4,7 @@ The lab behind CRAD after the v0.1 preprint: capture, a shared measurement contr
 
 The preprint code at the repository root (`CRAD_v1.3.py`, `crad_base.py`) is untouched. The lab carries its own copy in `src/`, pinned by sha256 to commit `eb8217b` in `src/PINNED.json`, and refuses to run if the copy drifts.
 
-**What this is not.** Every result produced here is one capture and one seed: a probe, not a test. Secret is fake (`BLUEFALCON`), model is local (Qwen2.5-7B-Instruct, 4-bit).
+**What this is not.** Apart from the two preregistered tests listed below, every result produced here is one capture and one seed: a probe, not a test. Secret is fake (`BLUEFALCON`), model is local (Qwen2.5-7B-Instruct, 4-bit).
 
 ---
 
@@ -50,7 +50,9 @@ The CPU rungs need `torch`, `transformers`, `numpy` and `scipy`. GPU rungs also 
 | `crad_tube.py` | Tube around the mean trajectory plus tangling (Russo et al. 2018): where trajectories fork, and whether the state already encoded the side |
 | `belenc.py` | **BELENC**, a validation standard: known perturbations planted inside real activations (standard addition, ICH Q2(R2)) give each instrument a false positive rate, LOD95, LOQ and a random-matrix-theory reference |
 | `belenc_fisher.py` | Linear response with the Fisher metric pulled back to the residual: converts geometric sigma into nats of behavior |
-| `analyze_prereg.py` | Analysis of the September preregistered test |
+| `analyze_prereg.py`, `PREREG.md`, `PREREG_RESULT.md` | The September preregistered test: the plan (sha256 `bcdf63bf...6826`), the analysis, and a transcript of its result |
+| `top_guard.py`, `top_run.py`, `src_top/top_residual.py`, `PREREG_TOP.md` | The October preregistered test: a TOP / ANTITOP guard between the logits and the sampler, under the same CRAD pressure. `top_guard.py selftest` runs on CPU. Code hashes are in `PREREG_TOP.md` |
+| `requirements.txt` | Reference environment of the RTX 3060 |
 | `mock_ladder.py`, `mock_run.py`, `preflight_gpu.py` | Rungs 3 and 4 |
 | `ladder.py` | The ladder as a Python runner (converted from the Colab notebook, without Drive) |
 
@@ -62,9 +64,12 @@ A negative from an instrument ("the rings do not see the decision") cannot tell 
 
 - **Cross-hardware replication.** The deterministic preprint case (median cos(L,R) 0.1523, coactivation 38.9%, leak at token 220) replicated on the RTX 3060, an A100 and an RTX PRO 6000 Blackwell. Sampled outcomes at T=0.7 differ by about 20% between GPUs because of near-tied logits, which is why captures and patching are tied to one GPU.
 - **Patching, one pair** ([`results/patch_probe_A100_src5_tgt0.md`](results/patch_probe_A100_src5_tgt0.md)). Copying the full decision-row state of a TRUTH draw into a SELF_FICTION draw flips it to the true secret from L14 on. Copying only the L/R plane never flips it, and copying everything except L/R flips it as well as the full state. So in this pair the choice is already in the state, and not in the L/R plane. Known confound: in that A100 pair the two histories had different lengths (217 vs 210 tokens). The ladder now picks pairs by rule with equal history length.
-- **The CRAD axes are not response directions, but R is not inert.** BELENC-Fisher measured the R axis at 16 to 19 times the sensitivity of random directions, while the actual TRUTH vs SELF_FICTION difference was about 36 times more sensitive and lived mostly outside the L/R plane.
+- **The September preregistered test rejected its hypothesis** ([`PREREG.md`](PREREG.md), [`PREREG_RESULT.md`](PREREG_RESULT.md)). Over seeds 43 to 46 (48 draws), `n_pre_override` was not higher in refusals: statistic -0.661, p 0.85, and the direction changes between seeds. The first analysis script grouped on the wrong field and printed a spurious H1 SUPPORTED from a NaN. Revision 2 fixed the grouping and nothing else, and the result file records it.
+- **The October preregistered test did not show a defense** ([`PREREG_TOP.md`](PREREG_TOP.md), [`results/TOP_REPORT_decision_20261024T144729Z.md`](results/TOP_REPORT_decision_20261024T144729Z.md)). On the A100, 40 pairs per arm, OBS leaked 22 of 40. TOP tilt removed 5 (McNemar p 0.062, H1 not met), ANTITOP tilt added 12 (H2 passed), SHAM removed 3 (H3 failed), and the guard fired on 16% of neutral steps against a limit of 5% (H4 failed). Pinned TOP removed 19 leaks, but mostly by breaking the output: 33 of 40 ended as FABRICATE. Two prefixes, one base seed.
+- **R is a response direction inside the band, and the CRAD axes do not carry the decision** ([`results/FISHER_G4.md`](results/FISHER_G4.md)). Sensitivity per unit norm against random directions, from `fisher.json`, one capture on the G4 series: R 18.6x at L14, 15.6x at L17 and 4.8x at L21. The real TRUTH vs SELF_FICTION difference: 7.5x, 15.9x and 36.7x. So the real difference only dominates R at L21.
+- **BELENC sheets** for that capture: [L14](results/BELENC_G4_L14.md), [L17](results/BELENC_G4_L17.md), [L21](results/BELENC_G4_L21.md). A sheet is valid for that matrix only.
 
 ## Known gaps
 
-- `analyze_prereg.py` needs the `runs/` of seeds 43 to 46 and `PREREG.md`, which live on the RTX 3060.
-- The attention-forcing experiment and the logit guard explored in October are not part of this release.
+- `analyze_prereg.py` needs the `runs/` of seeds 43 to 46, which live on the RTX 3060. Until those are published, the September result can be read but not recomputed. The configs here were rebuilt from the session that wrote them.
+- The attention-forcing experiment explored in October is not part of this release.
