@@ -17,8 +17,10 @@ siguiente: copia el error. Los peldaños que ya tienen resultado en disco no se 
   contract       CPU     contrato sobre la captura y pares elegidos por regla (no a mano)
   probe          GPU     patch_probe sobre el par elegido
   batch          GPU     patch_batch por capa (horas: necesita --run-batch)
-  belenc         GPU     BELENC-Fisher (física) y luego las fichas BELENC (estándar, CPU)
+  belen          GPU     BELEN-Fisher (physics), then the BELEN validation sheets (standard, CPU)
   how            GPU     story_copy, patch_how attend y patch_how trace sobre los pares de la regla
+  twophase-plan  CPU     two_phase plan: pairs, geometry of delta against S and the nulls, cost (no model)
+  twophase       GPU     two_phase run + analyze (PREREG_TWOPHASE.md, needs --run-twophase)
 
   python ladder.py cpu
   python ladder.py mock
@@ -49,16 +51,16 @@ CONFIG_PATCH = "configs/qwen2.5-7b_T0.7_cal0_L14-20_s42.json"   # fuente para pa
 SUPERSET = (13, 28)            # capas guardadas en capture.npz (la 27 es post-norm: patch_batch la excluye)
 PATCH_LAYERS = [14, 17, 19, 21, 23, 25]
 PATCH_ALIGN = ["anchor", "commit"]
-BELENC_LAYERS = [14, 17, 21]
-BELENC_ROW = 2                 # fila plantada: lejos de la bifurcación natural del ancla (fila 4)
+BELEN_LAYERS = [14, 17, 21]
+BELEN_ROW = 2                 # fila plantada: lejos de la bifurcación natural del ancla (fila 4)
 SELFTESTS = ("src/CRAD_v1.3.py --selftest", "src/crad_base.py --selftest", "CRAD_v1_5_prismatic.py --selftest",
              "crad_triad.py --selftest", "crad_contract.py selftest", "run.py --selftest",
              "capture_launch.py --selftest", "crad_rings.py --selftest", "crad_tube.py --selftest",
              "story_copy.py --selftest", "patch_how.py --selftest", "belenc_fisher.py --selftest",
-             "belenc.py --selftest")
+             "belenc.py --selftest", "two_phase.py selftest")
 IMPORTS = ("run fingerprint launch_common crad_launch capture_launch capture crad_contract crad_triad "
            "CRAD_v1_5_prismatic dose_probe patch_probe patch_batch preflight_gpu mock_ladder "
-           "crad_rings crad_tube story_copy patch_how belenc belenc_fisher").split()
+           "crad_rings crad_tube story_copy patch_how belenc belenc_fisher two_phase").split()
 
 
 class Red(SystemExit):
@@ -172,6 +174,7 @@ def step_cpu(a):
 
 def step_mock(a):
     sh(f"{sys.executable} mock_ladder.py", env={"CRAD_MOCK_MODEL": "1"})
+    sh(f"{sys.executable} two_phase_mock.py", env={"CRAD_MOCK_MODEL": "1"})
 
 
 def step_preflight(a):
@@ -313,17 +316,17 @@ def step_batch(a):
             print(Path(p).with_name("BATCH.md").read_text()[:6000], "\n")
 
 
-def step_belenc(a):
+def step_belen(a):
     cap = patch_capture()
     _, _, real, _, _, _ = pairs(cap)
     if real is None:
         raise Red("no hay par por regla: corre `contract`")
-    same_gpu_or_stop(cap, "BELENC-Fisher")
+    same_gpu_or_stop(cap, "BELEN-Fisher")
 
     def fisher_done():
         for p in sorted(glob.glob(f"{cap}/belenc_fisher/*/fisher.json")):
             m = json.loads(Path(p).read_text())
-            if m.get("pair") == list(real) and sorted(m["layers"]) == sorted(map(str, BELENC_LAYERS)):
+            if m.get("pair") == list(real) and sorted(m["layers"]) == sorted(map(str, BELEN_LAYERS)):
                 return p
         return None
 
@@ -331,18 +334,18 @@ def step_belenc(a):
     if fj:
         print("ya existe:", rel(fj))
     else:
-        sh(f"{sys.executable} belenc_fisher.py {rel(cap)} --layers {' '.join(map(str, BELENC_LAYERS))} "
+        sh(f"{sys.executable} belenc_fisher.py {rel(cap)} --layers {' '.join(map(str, BELEN_LAYERS))} "
            f"--pair {real[0]} {real[1]}")
         fj = fisher_done()
     print(Path(fj).with_name("FISHER.md").read_text())
-    for L in BELENC_LAYERS:
-        if glob.glob(f"{cap}/belenc/*_L{L}_T7_r{BELENC_ROW}/BELENC.md"):
+    for L in BELEN_LAYERS:
+        if glob.glob(f"{cap}/belenc/*_L{L}_T7_r{BELEN_ROW}/BELENC.md"):
             print(f"ya existe la ficha de L{L}")
             continue
-        sh(f"{sys.executable} belenc.py run {rel(cap)} --layer {L} --row {BELENC_ROW} --real-pair {real[0]} {real[1]} "
+        sh(f"{sys.executable} belenc.py run {rel(cap)} --layer {L} --row {BELEN_ROW} --real-pair {real[0]} {real[1]} "
            f"--instruments oracle pca tube_fork tube_anticip rings --fisher-json {rel(fj)}")
-    for L in BELENC_LAYERS:
-        p = sorted(glob.glob(f"{cap}/belenc/*_L{L}_T7_r{BELENC_ROW}/BELENC.md"))[-1]
+    for L in BELEN_LAYERS:
+        p = sorted(glob.glob(f"{cap}/belenc/*_L{L}_T7_r{BELEN_ROW}/BELENC.md"))[-1]
         print(Path(p).read_text()[:8000], "\n")
 
 
@@ -363,19 +366,63 @@ def step_how(a):
         print(Path(p).read_text()[:6000], "\n")
 
 
+def prereg_pin(script, prereg):
+    """sha256 that the PREREG pins for a script, None if the PREREG does not exist."""
+    p = LAB / prereg
+    if not p.exists():
+        return None
+    for line in p.read_text().splitlines():
+        if line.strip().startswith(f"| `{script}` |"):
+            return line.split("`")[3]
+    return None
+
+
+def step_twophase_plan(a):
+    cap = patch_capture()
+    sh(f"{sys.executable} two_phase.py plan {rel(cap)}")
+
+
+def step_twophase(a):
+    import hashlib
+    cap = patch_capture()
+    want = prereg_pin("two_phase.py", "PREREG_TWOPHASE.md")
+    have = hashlib.sha256((LAB / "two_phase.py").read_bytes()).hexdigest()
+    if want is None or want != have:
+        raise Red(f"two_phase.py ({have[:12]}) is not the one pinned in PREREG_TWOPHASE.md ({(want or 'none')[:12]}). "
+                  "A preregistered test does not run with other code.")
+    print(f"two_phase.py == PREREG ✓ ({have[:12]})")
+    done = sorted(glob.glob(f"{cap}/two_phase/2*/TWO_PHASE.md"))
+    if done:
+        print(f"already exists: {rel(done[-1])}, not repeated\n")
+        print(Path(done[-1]).read_text())
+        return
+    if not a.run_twophase:
+        print("\nwithout --run-twophase it does not run. Read `twophase-plan` (generations) and `cost` (s per turn).")
+        return
+    need_gpu(a)
+    same_gpu_or_stop(cap, "two_phase")
+    sh(f"{sys.executable} two_phase.py run {rel(cap)}")
+    run = sorted(glob.glob(f"{cap}/two_phase/2*/run.json"))[-1]
+    sh(f"{sys.executable} two_phase.py analyze {rel(Path(run).parent)}")
+
+
 STEPS = {"cpu": step_cpu, "mock": step_mock, "preflight": step_preflight, "cost": step_cost,
          "capture-ref": step_capture_ref, "capture-patch": step_capture_patch, "contract": step_contract,
-         "probe": step_probe, "batch": step_batch, "belenc": step_belenc, "how": step_how}
+         "probe": step_probe, "batch": step_batch, "belen": step_belen, "how": step_how,
+         "twophase-plan": step_twophase_plan, "twophase": step_twophase}
 
 
 def main() -> int:
     ap = argparse.ArgumentParser(description="Escalera del lab de CRAD (un peldaño por subcomando)")
-    ap.add_argument("step", choices=list(STEPS) + ["all"])
+    ap.add_argument("step", choices=list(STEPS) + ["all", "belenc"])   # belenc: old name of belen
     ap.add_argument("--upto", choices=list(STEPS), default="how", help="con `all`: último peldaño a correr")
     ap.add_argument("--expect-gpu", default=None, help='p. ej. "RTX PRO 6000" o "A100": se detiene si no coincide')
     ap.add_argument("--units-per-hour", type=float, default=None, help="costo por hora de la GPU, para `cost`")
     ap.add_argument("--run-batch", action="store_true", help="enciende patch_batch (tarda horas)")
+    ap.add_argument("--run-twophase", action="store_true", help="turns on two_phase run (PREREG_TWOPHASE.md)")
     a = ap.parse_args()
+    if a.step == "belenc":
+        a.step = "belen"
     os.environ.pop("CRAD_MOCK_MODEL", None)          # el mock solo existe dentro del peldaño `mock`
     if a.step != "all":
         STEPS[a.step](a)
