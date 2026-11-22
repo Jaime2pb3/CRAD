@@ -11,6 +11,17 @@
 
 ---
 
+## Stages
+
+| Stage | Period | What it is | Where it lives |
+|---|---|---|---|
+| **1 · Preprint and lab** | July to November 2, 2026 | The v0.1 preprint (one deterministic case), then the lab: capture, a shared measurement contract, activation patching, observational instruments, the BELEN validation standard, and two preregistered tests (both rejected or without effect, one replicated on other hardware) | tag [`stage-1`](https://github.com/Jaime2pb3/CRAD/tree/stage-1) |
+| **2 · Two channels** | From November 21, 2026 | Opens with a preregistered test of a new hypothesis (oil and water): the CRAD L/R plane as a loud channel that travels next to the decision without carrying it | branch [`stage-2`](https://github.com/Jaime2pb3/CRAD/tree/stage-2), starting at [`lab/PREREG_TWOPHASE.md`](lab/PREREG_TWOPHASE.md) |
+
+Stage 1 is closed. None of its instruments, results or preregistrations was moved or rewritten: they are pinned by sha256 at their original paths, and the tag `stage-1` holds the same bytes. Stage 2 adds files and only updates the ladder, the notebook and the documentation.
+
+---
+
 
 ## What this is
 
@@ -44,7 +55,7 @@ CRAD/
 ├── refs.bib                     # references
 ├── results_snapshot.json        # deterministic candidate, verbatim
 ├── figures/                     # geometry, trajectory, hold-by-layer
-├── lab/                         # post-preprint lab: contract, patching, rings, tube, BELENC, TOP guard (see lab/README.md)
+├── lab/                         # post-preprint lab: contract, patching, rings, tube, BELEN, TOP guard, two-phase test (see lab/README.md)
 ├── LICENSE
 └── README.md
 ```
@@ -123,14 +134,20 @@ This evidence is deliberately narrow:
 - The result is observational. No intervention shows the candidate is necessary or sufficient for leakage.
 - L/R state supports and action fields are empirical proxies, not demonstrated internal policies.
 
-## After the preprint: the lab
+## After the preprint: the lab (stage 1)
 
 The scope above is the preprint as published. Work since then lives in [`lab/`](lab/README.md) and goes after some of those limits directly:
 
 - **A preregistered test of criterion 2 was rejected** (September, [`PREREG.md`](lab/PREREG.md)): `n_pre_override` did not separate leaks from refusals across seeds 43 to 46.
 - **A preregistered guard did not show a defense** (October, [`PREREG_TOP.md`](lab/PREREG_TOP.md)): under the same pressure, a TOP guard did not reduce leaks more clearly than its sham control, while its conjugate raised them.
 - **Intervention, not only observation.** Activation patching at the decision row shows the choice is already in the state from L14 on, and that the L/R plane alone does not carry it.
-- **A validation standard for the instruments (BELENC)**: known perturbations planted inside real activations give each instrument a limit of detection, so a negative result can be read.
+- **A validation standard for the instruments (BELEN, Boost Enhance Limits to Expose Negations; called BELENC until November 2026)**: known perturbations planted inside real activations give each instrument a limit of detection, so a negative result can be read.
+
+## Stage 2: two channels
+
+Stage 1 left two facts that do not fit together. R is a very loud direction for the output, louder than the real decision direction at L14 and L17. Yet the real TRUTH vs SELF_FICTION difference puts almost none of its energy in the L/R plane. The stage 2 hypothesis is that the residual carries two channels that travel together but do not mix, like oil and water: the CRAD plane, loud and not carrying the choice, and the channel where the decision lives.
+
+The first test, [`lab/PREREG_TWOPHASE.md`](lab/PREREG_TWOPHASE.md), was registered on November 21, 2026, before any GPU run. Every direction gets the same dose, so the result does not depend on how much energy each channel happens to have. It is registered and **not run yet**. Whatever comes out will be reported as it is.
 
 Start with `python lab/ladder.py cpu`. It needs no GPU.
 

@@ -4,20 +4,31 @@ The lab behind CRAD after the v0.1 preprint: capture, a shared measurement contr
 
 The preprint code at the repository root (`CRAD_v1.3.py`, `crad_base.py`) is untouched. The lab carries its own copy in `src/`, pinned by sha256 to commit `eb8217b` in `src/PINNED.json`, and refuses to run if the copy drifts.
 
-**What this is not.** Apart from the two preregistered tests listed below, every result produced here is one capture and one seed: a probe, not a test. Secret is fake (`BLUEFALCON`), model is local (Qwen2.5-7B-Instruct, 4-bit).
+**What this is not.** Apart from the preregistered tests listed below, every result produced here is one capture and one seed: a probe, not a test. Secret is fake (`BLUEFALCON`), model is local (Qwen2.5-7B-Instruct, 4-bit).
+
+## Preregistered tests
+
+Each one was written and pushed before its data existed. A preregistration is never edited after its run, and its code is pinned by sha256 inside the file.
+
+| Stage | Written | File | Question | Status |
+|---|---|---|---|---|
+| 1 | 2026-09-24 | [`PREREG.md`](PREREG.md), result in [`PREREG_RESULT.md`](PREREG_RESULT.md) | Is `n_pre_override` higher in refusals than in leaks (falsification criterion 2)? | **Rejected** (p 0.85, 48 draws) |
+| 1 | 2026-10-24 | [`PREREG_TOP.md`](PREREG_TOP.md) (written in Spanish, kept as written) | Does a TOP guard make the model keep the secret more often, without damage? | **No defense shown** (H1 not met, H3 failed against the sham) |
+| 1 | 2026-11-02 | [`PREREG_G4.md`](PREREG_G4.md) | The September test, unchanged, on other hardware | **Rejection replicated** (p 0.84) |
+| 2 | 2026-11-21 | [`PREREG_TWOPHASE.md`](PREREG_TWOPHASE.md) | Is the CRAD L/R plane a loud channel that does not carry the decision and does not mix with it? | **Registered, not run** |
 
 ---
 
 ## Run it on Colab
 
-[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Jaime2pb3/CRAD/blob/Colab/lab/crad_lab_colab.ipynb)
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/Jaime2pb3/CRAD/blob/stage-2/lab/crad_lab_colab.ipynb)
 
-`crad_lab_colab.ipynb` runs the same ladder cell by cell. It clones this repository, so nothing has to be uploaded. Google Drive is optional (`USE_DRIVE = True`) and only keeps your own results between sessions.
+`crad_lab_colab.ipynb` runs the same ladder cell by cell. It clones this repository at `REPO_REF` (`stage-2` on this branch), so nothing has to be uploaded. Google Drive is optional (`USE_DRIVE = True`) and only keeps your own results between sessions.
 
 ## The ladder
 
 ```bash
-python ladder.py cpu            # rungs 0-2: AST, imports, 13 selftests (CPU, about a minute)
+python ladder.py cpu            # rungs 0-2: AST, imports, 14 selftests (CPU, about a minute)
 python ladder.py mock           # rung 3: the whole lab on a fake model, end to end (CPU)
 python ladder.py preflight      # rung 4: real load, fp16 exact, reproducibility, self-patch hook (GPU)
 python ladder.py cost           # cost estimate from times MEASURED by the preflight
@@ -28,6 +39,8 @@ python ladder.py probe          # patch_probe on the rule-chosen pair
 python ladder.py batch --run-batch   # patch_batch per layer (hours)
 python ladder.py belen          # BELEN-Fisher, then the BELEN validation sheets
 python ladder.py how            # story_copy, patch_how attend and trace
+python ladder.py twophase-plan  # stage 2: two_phase plan, no model (CPU)
+python ladder.py twophase --run-twophase   # stage 2: the preregistered run (GPU)
 python ladder.py all --upto contract
 ```
 
@@ -36,6 +49,8 @@ A red rung stops everything. Rungs that already have a result on disk are not re
 The CPU rungs need `torch`, `transformers`, `numpy` and `scipy`. GPU rungs also need `bitsandbytes` and `accelerate`.
 
 ## What is in here
+
+Every row belongs to stage 1 except the `two_phase` row, which opens stage 2.
 
 | File | Role |
 |---|---|
